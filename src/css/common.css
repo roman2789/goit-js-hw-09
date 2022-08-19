@@ -16,3 +16,27 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  color: rgb(0, 0, 0);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.field {
+  display: inline-block;
+  font-size: 1.5em;
+  list-style-type: none;
+  padding: 1 em;
+  text-transform: uppercase;
+}
+
+.value {
+  display: block;
+  font-size: 5.5rem;
+}
+
+.label {
+  font-size: 2.5 rem;
+  padding: 0 2.5rem;
+}
