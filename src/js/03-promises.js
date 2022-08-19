@@ -29,7 +29,7 @@ function onInputForm(e) {
   const amount = form.elements.amount.value;
   const step = form.elements.step.value;
 
-  for (i = 1; i <= amount; i++) {
+  for (let i = 1; i <= amount; i++) {
     position = i;
     createPromise(position, delay, step)
       .then(message => {

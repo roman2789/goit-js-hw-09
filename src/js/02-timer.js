@@ -19,7 +19,7 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (Date.parse(selectedDates[0]) > Date.parse(options.defaultDate)) {
+    if (selectedDates[0].getTime() > new Date().getTime()) {
       refs.startBtn.disabled = false;
     } else {
       Notiflix.Notify.failure('Please choose a date in the future');
@@ -28,16 +28,18 @@ const options = {
 };
 
 flatpickr('#datetime-picker', options);
+
+console.log(flatpickr('#datetime-picker', options));
 let interval = null;
 
 function onStartTimer() {
   clearInterval(interval);
-  const currentTime = Date.parse(
-    flatpickr('#datetime-picker').selectedDates[0]
-  );
+
+  const currentTime = flatpickr('#datetime-picker').selectedDates[0].getTime();
+
   interval = setInterval(() => {
-    const startTime = Date.now();
-    const deltaTime = currentTime - startTime;
+    const deltaTime = currentTime - Date.now();
+    if (deltaTime < 0) return;
     const { days, hours, minutes, seconds } = convertMs(deltaTime);
     refs.days.textContent = `${days}`;
     refs.hours.textContent = `${hours}`;
@@ -46,9 +48,8 @@ function onStartTimer() {
   }, 1000);
 }
 
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-}
+const addLeadingZero = value => String(value).padStart(2, '0');
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -69,7 +70,3 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
